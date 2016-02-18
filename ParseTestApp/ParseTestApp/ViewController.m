@@ -27,8 +27,18 @@
     
     if (currentUser) {
         
+        NSLog(@"Current cached user: %@", [currentUser description]);
+        
         [self.signUpButton setTitle:@"Log Out" forState:UIControlStateNormal];
         self.logInButton.hidden = YES;
+        
+        PFQuery *remoteUserQuery = [PFQuery queryWithClassName:@"_User"];
+        
+        [remoteUserQuery getObjectInBackgroundWithId:currentUser.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            
+            NSLog(@"Current user from server %@", [object description]);
+            
+        }];
         
     }
 }
