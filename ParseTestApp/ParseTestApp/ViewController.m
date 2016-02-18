@@ -83,8 +83,20 @@
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
 {
     [self dismissViewControllerAnimated:YES completion:^{
+        
         [self.signUpButton setTitle:@"Log Out" forState:UIControlStateNormal];
         self.logInButton.hidden = YES;
+        
+        PFQuery *remoteUserQuery = [PFQuery queryWithClassName:@"_User"];
+        
+        [remoteUserQuery getObjectInBackgroundWithId:user.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            
+            NSLog(@"Current user from server %@", [object description]);
+            
+            //[object pinInBackground];
+            
+        }];
+        
     }];
 }
 
@@ -93,8 +105,20 @@
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user
 {
     [self dismissViewControllerAnimated:YES completion:^{
+        
         [self.signUpButton setTitle:@"Log Out" forState:UIControlStateNormal];
         self.logInButton.hidden = YES;
+        
+        PFQuery *remoteUserQuery = [PFQuery queryWithClassName:@"_User"];
+        
+        [remoteUserQuery getObjectInBackgroundWithId:user.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            
+            NSLog(@"Current user from server %@", [object description]);
+            
+            //[object pinInBackground];
+            
+        }];
+        
     }];
 }
 
