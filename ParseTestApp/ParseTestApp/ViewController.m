@@ -35,17 +35,17 @@
         PFQuery *localUserQuery = [PFQuery queryWithClassName:@"_User"];
         [localUserQuery fromLocalDatastore];
         
-        [localUserQuery getObjectInBackgroundWithId:currentUser.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
-            
-            NSLog(@"Current user from local data store %@", [object description]);
-            
-        }];
+        PFUser *localDataStoreUser = [localUserQuery getObjectWithId:currentUser.objectId];
+        
+        NSLog(@"Current user from local data store %@", [localDataStoreUser description]);
         
         PFQuery *remoteUserQuery = [PFQuery queryWithClassName:@"_User"];
         
         [remoteUserQuery getObjectInBackgroundWithId:currentUser.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
             
             NSLog(@"Current user from server %@", [object description]);
+            
+            [object pinInBackground];
             
         }];
         
@@ -102,7 +102,7 @@
             
             NSLog(@"Current user from server %@", [object description]);
             
-            //[object pinInBackground];
+            [object pinInBackground];
             
         }];
         
@@ -124,7 +124,7 @@
             
             NSLog(@"Current user from server %@", [object description]);
             
-            //[object pinInBackground];
+            [object pinInBackground];
             
         }];
         
