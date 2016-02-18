@@ -32,6 +32,15 @@
         [self.signUpButton setTitle:@"Log Out" forState:UIControlStateNormal];
         self.logInButton.hidden = YES;
         
+        PFQuery *localUserQuery = [PFQuery queryWithClassName:@"_User"];
+        [localUserQuery fromLocalDatastore];
+        
+        [localUserQuery getObjectInBackgroundWithId:currentUser.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+            
+            NSLog(@"Current user from local data store %@", [object description]);
+            
+        }];
+        
         PFQuery *remoteUserQuery = [PFQuery queryWithClassName:@"_User"];
         
         [remoteUserQuery getObjectInBackgroundWithId:currentUser.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
